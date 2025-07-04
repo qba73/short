@@ -103,9 +103,16 @@ fn check_duplicate(file_path: &str, url: &String) -> bool {
         if parts.len() != 2 {
             continue;
         }
+        let short = parts[0];
         let long = parts[1];
         if long == url {
             println!("URL {} already shortened", url);
+
+            //pprint(long, short);
+
+            println!("{: <15}: {}", "Long URL", long);
+            println!("{: <15}: {}", "Shortened URL", short);
+
             return true;
         }
     }
