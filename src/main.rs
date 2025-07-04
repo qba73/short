@@ -24,8 +24,7 @@ fn main() {
             .take(8)
             .collect();
 
-        println!("Long URL: {}", url);
-        println!("Short URL: {}", short_url);
+        pprint(url, &short_url);
 
         // storage
         let mut file_store = match OpenOptions::new()
@@ -75,4 +74,9 @@ fn main() {
         }
         println!("Short URL not found");
     }
+}
+
+fn pprint(long_url: &String, short_url: &String) {
+    println!("{: <15}: {}", "Long URL", long_url);
+    println!("{: <15}: {}", "Shortened URL", short_url);
 }
