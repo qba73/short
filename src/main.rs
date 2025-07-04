@@ -18,6 +18,12 @@ fn main() {
 
     // valid url
     if url.starts_with("http") {
+        // Verify for duplicates
+        let exist = check_duplicate(mapping_path, url);
+        if exist {
+            return;
+        }
+
         let mut rng = rand::rng();
         let short_url: String = std::iter::repeat(())
             .map(|()| rng.sample(Alphanumeric) as char)
@@ -74,6 +80,36 @@ fn main() {
         }
         println!("Short URL not found");
     }
+}
+
+fn check_duplicate(file_path: &str, url: &String) -> bool {
+    let file_store = match File::open(file_path) {
+        Ok(file) => file,
+        Err(_) => {
+            println!("error opening file store");
+            return false;
+        }
+    };
+    let reader = BufReader::new(file_store);
+    for line in reader.lines() {
+        let mapping = match line {
+            Ok(line) => line,
+            Err(_) => {
+                println!("error reading file store");
+                continue;
+            }
+        };
+        let parts: Vec<&str> = mapping.split(',').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let long = parts[1];
+        if long == url {
+            println!("URL {} already shortened", url);
+            return true;
+        }
+    }
+    return false;
 }
 
 fn pprint(long_url: &String, short_url: &String) {
