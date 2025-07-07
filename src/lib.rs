@@ -2,11 +2,10 @@ use rand::{Rng, distr::Alphanumeric};
 
 pub fn generate_shortcode() -> String {
     let mut rng = rand::rng();
-    let short_url: String = std::iter::repeat(())
+    std::iter::repeat(())
         .map(|()| rng.sample(Alphanumeric) as char)
         .take(8)
-        .collect();
-    short_url
+        .collect()
 }
 
 pub fn pprint(long_url: &str, short_url: &str) {
@@ -14,8 +13,13 @@ pub fn pprint(long_url: &str, short_url: &str) {
     println!("{: <15}: {}", "Shortened URL", short_url);
 }
 
-#[test]
-fn generate_shortcode_8_characters_long() {
-    let code = generate_shortcode();
-    assert_eq!(8, code.len());
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn generate_shortcode_8_characters_long() {
+        let code = generate_shortcode();
+        assert_eq!(8, code.len());
+    }
 }
