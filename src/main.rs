@@ -1,8 +1,8 @@
-use std::{
-    env,
-    fs::{File, OpenOptions},
-    io::{BufRead, BufReader, Write},
-};
+use short::check_duplicate;
+use std::env;
+use std::fs::File;
+use std::fs::OpenOptions;
+use std::io::{BufRead, BufReader, Write};
 
 use short::{generate_shortcode, pprint};
 
@@ -87,38 +87,4 @@ fn main() {
         }
         println!("Short URL not found");
     }
-}
-
-fn check_duplicate(file_path: &str, url: &String) -> bool {
-    let file_store = match File::open(file_path) {
-        Ok(file) => file,
-        Err(_) => {
-            println!("error opening file store");
-            return false;
-        }
-    };
-    let reader = BufReader::new(file_store);
-    for line in reader.lines() {
-        let mapping = match line {
-            Ok(line) => line,
-            Err(_) => {
-                println!("error reading file store");
-                continue;
-            }
-        };
-        let parts: Vec<&str> = mapping.split(',').collect();
-        if parts.len() != 2 {
-            continue;
-        }
-        let short = parts[0];
-        let long = parts[1];
-        if long == url {
-            println!("URL {} already shortened", url);
-
-            pprint(long, short);
-
-            return true;
-        }
-    }
-    return false;
 }
