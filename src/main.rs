@@ -1,9 +1,10 @@
-use rand::{Rng, distr::Alphanumeric};
 use std::{
     env,
     fs::{File, OpenOptions},
     io::{BufRead, BufReader, Write},
 };
+
+use short::{generate_shortcode, pprint};
 
 fn main() {
     let mapping_path = "src/mapping.txt";
@@ -13,8 +14,18 @@ fn main() {
         println!("Usage: shorten <url>");
         return;
     }
-
     let url = &args[1];
+
+    // open store
+    //let store = Open(mapping_path);
+
+    // shortening URL
+    // data races problem - todo
+    // verify if the url does not exist
+    //let short_url = store.Shorten(url);
+
+    // list URLs
+    //store.List();
 
     // valid url
     if url.starts_with("http") {
@@ -24,12 +35,7 @@ fn main() {
             return;
         }
 
-        let mut rng = rand::rng();
-        let short_url: String = std::iter::repeat(())
-            .map(|()| rng.sample(Alphanumeric) as char)
-            .take(8)
-            .collect();
-
+        let short_url = generate_shortcode();
         pprint(url, &short_url);
 
         // storage
@@ -39,6 +45,7 @@ fn main() {
             .open(mapping_path)
         {
             Ok(file) => file,
+            // ? use it check
             Err(_) => {
                 println!("error opening file store for URLs");
                 return;
@@ -108,18 +115,10 @@ fn check_duplicate(file_path: &str, url: &String) -> bool {
         if long == url {
             println!("URL {} already shortened", url);
 
-            //pprint(long, short);
-
-            println!("{: <15}: {}", "Long URL", long);
-            println!("{: <15}: {}", "Shortened URL", short);
+            pprint(long, short);
 
             return true;
         }
     }
     return false;
-}
-
-fn pprint(long_url: &String, short_url: &String) {
-    println!("{: <15}: {}", "Long URL", long_url);
-    println!("{: <15}: {}", "Shortened URL", short_url);
 }
