@@ -11,8 +11,8 @@ pub fn generate_shortcode() -> String {
 }
 
 pub fn pprint(long_url: &str, short_url: &str) {
-    println!("{: <15}: {}", "Long URL", long_url);
-    println!("{: <15}: {}", "Shortened URL", short_url);
+    println!("{: <10}: {}", "Long URL", long_url);
+    println!("{: <10}: {}", "Short URL", short_url);
 }
 
 pub fn check_duplicate(file_path: &str, url: &str) -> bool {
@@ -60,13 +60,13 @@ mod tests {
     }
 
     #[test]
-    fn check_duplicates_detect_duplicate_entry() {
+    fn check_duplicate_detects_duplicate_entry() {
         let is_duplicated = check_duplicate("test/mapping.txt", "http://wp.pl");
         assert_eq!(true, is_duplicated);
     }
 
     #[test]
-    fn check_duplicates_when_no_duplicates() {
+    fn check_duplicate_detect_no_duplicates() {
         let is_duplicated = check_duplicate("test/mapping.txt", "http://hello.pl");
         assert_eq!(false, is_duplicated);
     }
