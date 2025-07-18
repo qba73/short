@@ -40,7 +40,7 @@ pub fn get_shortcode(file_path: &str, url: &str) -> Result<Option<String>> {
     return Ok(None);
 }
 
-const MAPPING_PATH: &str = "src/mapping.txt";
+pub const MAPPING_PATH: &str = "src/mapping.txt";
 
 pub fn shorten(url: &str) -> Result<String> {
     // Verify for duplicates

@@ -4,10 +4,10 @@ use std::env;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
+use short::MAPPING_PATH;
 use short::shorten;
 
 fn main() -> Result<()> {
-    let mapping_path = "src/mapping.txt";
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -21,7 +21,7 @@ fn main() -> Result<()> {
         let shortcode = shorten(url)?;
         println!("{}", shortcode);
     } else {
-        let file_store = File::open(mapping_path)?;
+        let file_store = File::open(MAPPING_PATH)?;
         let reader = BufReader::new(file_store);
         for line in reader.lines() {
             let mapping = line?;
