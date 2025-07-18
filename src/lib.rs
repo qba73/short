@@ -18,10 +18,6 @@ pub fn pprint(long_url: &str, short_url: &str) {
     println!("{: <10}: {}", "Short URL", short_url);
 }
 
-pub fn printto() -> String {
-    String::from("info")
-}
-
 pub fn get_shortcode(file_path: &str, url: &str) -> Result<Option<String>> {
     let file_store = File::open(file_path)?;
     let reader = BufReader::new(file_store);
@@ -70,12 +66,6 @@ mod tests {
     fn shorten_returns_shortcode_for_existing_url() {
         let short_url = shorten("http://wp.pl").unwrap();
         assert_eq!("SyrRUXBT", short_url);
-    }
-
-    #[test]
-    fn print_report() {
-        let message = printto();
-        assert_eq!(message, "info")
     }
 
     #[test]
